@@ -35,7 +35,7 @@ public class UpdateStudent extends HttpServlet {
 
             if (student != null) {
                 List<Address> addressList = addressDAO.getAllAddresses();
-                request.setAttribute("address", addressList);
+                request.setAttribute("addressList", addressList);
                 request.setAttribute("student", student);
                 request.getRequestDispatcher("/WEB-INF/updateStudent.jsp").forward(request, response);
             } else {
@@ -46,6 +46,7 @@ public class UpdateStudent extends HttpServlet {
             request.setAttribute("UpdateStudentError", "Invalid page");
             request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
         }
+
     }
 
 
@@ -64,11 +65,11 @@ public class UpdateStudent extends HttpServlet {
                 System.out.println("the id of user to be updated: "+ studentId);
                 Student studentToUpdate = studentDAO.getStudentById(studentId);
                 System.out.println("the student data to update:  "+studentToUpdate);
+                System.out.println("Student Address: " + studentToUpdate.getAddress());
+
 
                 if (studentToUpdate != null) {
                     Address address = addressDAO.getAddressById(Integer.parseInt(request.getParameter("address")));
-                    request.setAttribute("student", studentToUpdate);
-                    request.setAttribute("address", address);
                     try {
                         boolean isInternational = (Integer.parseInt(request.getParameter("internation")) == 1);
                         boolean isPartTime = (Integer.parseInt(request.getParameter("partTime")) == 1);

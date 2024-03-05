@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -60,7 +61,7 @@
             <span style="color: green"> ${successStudent}</span>
         </p>
     </c:if>
-    <form class="py-4" action="updatestudent.php?page=updatestudent" method="post">
+    <form class="py-4" action="updatestudent.php?page=updatestudent" method="post" onsubmit="resetForm()">
         <div class="flex flex-row gap-4 justify-between">
             <input type="hidden" name="studentId" value="${student.id}">
             <input type="text" class="w-full" placeholder="Student's First Name" required name="firstName" value="${student.firstName}">
@@ -75,13 +76,14 @@
             <input type="number" class="w-full" placeholder="Part Time ( 1 0r 0)" required name="partTime" value="${student.partTime ? 1 : 0}">
         </div>
         <div class="flex flex-row gap-4">
-            <input type="date" class="w-full" placeholder="Date OF Birth" required name="birth">
+            <input type="date" class="w-full" placeholder="Date OF Birth" required name="birth" value="<fmt:formatDate value="${student.dateOfBirth}" pattern="yyyy-MM-dd" />" />
+
             <select name="address" class="w-full bg-[#f2f2f2] border-0 rounded-md ">
                 <option>Select the Address</option>
-                <c:forEach items="${address}" var="ad" varStatus="studentstatus">
-                    <option value="${ad.id}" <c:if test="${student.address.id eq ad.id}">selected</c:if>>${ad.city}</option>
+                <c:forEach items="${addressList}" var="ad" varStatus="studentstatus">
+                    <option value="${ad.id}" <c:if test="${student.address != null && student.address.id eq ad.id}">selected</c:if>>${ad.city}</option>
                 </c:forEach>
-            </select>'
+            </select>
         </div>
         <div class="flex flex-row justify-between w-full py-4">
             <button class="bg-slate-500 py-3 px-10 flex items-center justify-center rounded-md text-white"><a href="liststudents">Cancel</a></button>
